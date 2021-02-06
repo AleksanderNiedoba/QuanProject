@@ -24,8 +24,8 @@ void AOverworldPlayerController::BeginPlay()
 	//test purposes
 	InputComponent->BindAction("ZoomIn", IE_Released, this, &AOverworldPlayerController::ZoomIn);
 	InputComponent->BindAction("ZoomOut", IE_Released, this, &AOverworldPlayerController::ZoomOut);
-	InputComponent->BindAction("SpanCamera", IE_Pressed, this, &AOverworldPlayerController::EnableSpan);
-	InputComponent->BindAction("SpanCamera", IE_Released, this, &AOverworldPlayerController::DisableSpan);
+	InputComponent->BindAction("CameraSpan", IE_Pressed, this, &AOverworldPlayerController::EnableSpan);
+	InputComponent->BindAction("CameraSpan", IE_Released, this, &AOverworldPlayerController::DisableSpan);
 }
 
 void AOverworldPlayerController::Tick(float DeltaSeconds)
@@ -97,6 +97,7 @@ void AOverworldPlayerController::RecenterMouseCoordinates()
 void AOverworldPlayerController::UpdateSpan()
 {
 	float MouseX, MouseY;
+	RecenterMouseCoordinates();
 	GetInputMouseDelta(MouseX, MouseY);
 	CameraPawn->AdjustCameraSpan(MouseX, MouseY);
 }

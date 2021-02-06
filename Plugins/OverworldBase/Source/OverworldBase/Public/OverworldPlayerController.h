@@ -26,6 +26,10 @@ public:
 	void ZoomOut();
 
 	virtual void Tick(float DeltaSeconds) override;
+	
+	//test
+	void EnableSpan();
+	void DisableSpan();
 
 protected:
 	virtual void BeginPlay() override;
