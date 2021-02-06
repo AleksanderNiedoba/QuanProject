@@ -2,6 +2,7 @@
 
 
 #include "OverworldPlayerController.h"
+#include "DrawDebugHelpers.h"
 #include "GameFramework/PlayerInput.h"
 
 
@@ -11,6 +12,7 @@ AOverworldPlayerController::AOverworldPlayerController(const FObjectInitializer&
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
 	bEnableMouseOverEvents = true;
+
 }
 
 
@@ -19,7 +21,7 @@ void AOverworldPlayerController::BeginPlay()
 	Super::BeginPlay();
 	SetupCameraPawn();
 	UpdateViewportSize();
-	
+	InteractionHandler = NewObject<UInteractionHandler>();
 	
 	//test purposes
 	InputComponent->BindAction("ZoomIn", IE_Released, this, &AOverworldPlayerController::ZoomIn);
@@ -38,6 +40,10 @@ void AOverworldPlayerController::Tick(float DeltaSeconds)
 
 	if (CameraSpanEnabled){
 		UpdateSpan();
+	}
+
+	if (InteractionsEnabled) {
+		UpdateInteractions();
 	}
 }
 
@@ -92,6 +98,19 @@ void AOverworldPlayerController::SetupCameraPawn()
 void AOverworldPlayerController::RecenterMouseCoordinates()
 {
 	SetMouseLocation(ViewportSizeX / 2, ViewportSizeY / 2);
+}
+
+void AOverworldPlayerController::UpdateInteractions()
+{
+	FHitResult HitResult;
+	FVector TraceStartLocation, TraceDirection;
+	DeprojectMousePositionToWorld(TraceStartLocation, TraceDirection);
+	GetWorld()->LineTraceSingleByChannel(HitResult, 
+		TraceStartLocation,
+		TraceStartLocation + (TraceDirection * TraceDistance),
+		ECollisionChannel::ECC_Visibility);
+
+	InteractionHandler->FindInteractions(HitResult);
 }
 
 void AOverworldPlayerController::UpdateSpan()
@@ -152,4 +171,3 @@ bool AOverworldPlayerController::CheckKeyboardMovment()
 	}
 	return HasInput;
 }
-

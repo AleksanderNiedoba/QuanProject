@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "OverworldBaseSettings.h"
 #include "OverworldCameraPawn.h"
+#include "InteractionHandler.h"
 #include "GameFramework/PlayerController.h"
 #include "OverworldPlayerController.generated.h"
 
@@ -18,9 +19,13 @@ public:
 	AOverworldPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
 
-	void HandleCameraMove(EScreenMovement MoveDirection);
+	//UFUNCTION(BlueprintCallable, Category = "OverworldBase");
 	void EnableCameraSpan(bool NewEnable);
+	//UFUNCTION(BlueprintCallable, Category = "OverworldBase");
 	void EnableCameraMove(bool NewEnable);
+
+
+	void HandleCameraMove(EScreenMovement MoveDirection);
 	void UpdateViewportSize();	 
 	void ZoomIn();
 	void ZoomOut();
@@ -37,17 +42,20 @@ protected:
 private:
 	void SetupCameraPawn();
 	void RecenterMouseCoordinates();
+	void UpdateInteractions();
 	void UpdateSpan();
 	bool CheckEdgeMovement();
 	bool CheckKeyboardMovment();
 
-
+public:
+	float TraceDistance = 30000;
 private:
 	AOverworldCameraPawn* CameraPawn;
+	UInteractionHandler* InteractionHandler;
 
 	int32 ViewportSizeX, ViewportSizeY;
 	bool CameraSpanEnabled = false;
 	bool CameraMoveEnabled = true;
-
+	bool InteractionsEnabled = true; 
 	FOverworldKeysSettings NaviButtons;
 };
