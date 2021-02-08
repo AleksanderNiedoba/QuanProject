@@ -73,12 +73,13 @@ void AOverworldCameraPawn::UpdateZoomDistance()
 
 
 
-void AOverworldCameraPawn::MoveCamera(EScreenMovement Direction)
+void AOverworldCameraPawn::MoveCamera(const EScreenMovement Direction)
 {
-	FVector CurrentLocation = GetActorLocation();
+	const FVector CurrentLocation = GetActorLocation();
+	const FVector ForwardMoveVector = HorizontalSpanRoot->GetForwardVector();
+	const FVector RightMoveVector = HorizontalSpanRoot->GetRightVector();
 	FVector NewLocation;
-	FVector ForwardMoveVector = HorizontalSpanRoot->GetForwardVector();
-	FVector RightMoveVector = HorizontalSpanRoot->GetRightVector();
+
 
 	switch (Direction)
 	{
@@ -99,7 +100,7 @@ void AOverworldCameraPawn::MoveCamera(EScreenMovement Direction)
 	SetActorLocation(NewLocation);
 }
 
-void AOverworldCameraPawn::AdjustCameraSpan(float MouseX, float MouseY)
+void AOverworldCameraPawn::AdjustCameraSpan(const float MouseX, const float MouseY) const 
 {
 	if (abs(MouseX) > 0)
 	{
@@ -107,15 +108,15 @@ void AOverworldCameraPawn::AdjustCameraSpan(float MouseX, float MouseY)
 	}
 	if (abs(MouseY) > 0)
 	{
-		float CurrentVerticalRotation = VerticalSpanRoot->GetRelativeRotation().Pitch;
-		float NewVerticalRotation = FMath::Clamp(CurrentVerticalRotation + MouseY, MinVerticalSpan, MaxVerticalSpan);
+		const float CurrentVerticalRotation = VerticalSpanRoot->GetRelativeRotation().Pitch;
+		const float NewVerticalRotation = FMath::Clamp(CurrentVerticalRotation + MouseY, MinVerticalSpan, MaxVerticalSpan);
 		VerticalSpanRoot->SetRelativeRotation(FRotator(NewVerticalRotation, 0.0, 0.0));
 	}
 }
 
-void AOverworldCameraPawn::RequestZoomChange(EZoomState ZoomState)
+void AOverworldCameraPawn::RequestZoomChange(const EZoomState ZoomState)
 {
-	float PrevoiusZoomDistance = DestZoomDistance;
+	const float PrevoiusZoomDistance = DestZoomDistance;
 
 	switch (ZoomState)
 	{

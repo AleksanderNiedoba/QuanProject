@@ -9,7 +9,6 @@ UInteractComponent::UInteractComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
 	// ...
 }
 
@@ -25,16 +24,17 @@ void UInteractComponent::BeginPlay()
 
 void UInteractComponent::OnHover()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hover triggerd"))
+	OnHovered.Broadcast();
 }
 
 void UInteractComponent::ReleaseHover()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hover Released"))
+	OnHoverReleased.Broadcast();
 }
 
 void UInteractComponent::OnClick()
 {
+	ComponentClicked.Broadcast();
 }
 
 

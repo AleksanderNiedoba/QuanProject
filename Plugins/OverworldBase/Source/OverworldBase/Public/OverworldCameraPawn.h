@@ -38,7 +38,7 @@ private:
 
 public:
 	//Camera Components 
-
+	UPROPERTY()
 	USceneComponent* CameraRootComponent;
 	USceneComponent* HorizontalSpanRoot;
 	USceneComponent* VerticalSpanRoot;
@@ -58,7 +58,7 @@ public:
 
 	// Called to bind functionality to input
 
-	void MoveCamera(EScreenMovement Direction);
-	void AdjustCameraSpan(float MouseX, float MouseY);
-	void RequestZoomChange(EZoomState ZoomState);
+	void MoveCamera(const EScreenMovement Direction);
+	void AdjustCameraSpan(const float MouseX, const float MouseY) const;
+	void RequestZoomChange(const EZoomState ZoomState);
 };

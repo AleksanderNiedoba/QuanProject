@@ -45,12 +45,14 @@ private:
 	void UpdateInteractions();
 	void UpdateSpan();
 	bool CheckEdgeMovement();
-	bool CheckKeyboardMovment();
+	bool CheckKeyboardMovement();
 
 public:
 	float TraceDistance = 30000;
 private:
 	AOverworldCameraPawn* CameraPawn;
+
+	UPROPERTY()
 	UInteractionHandler* InteractionHandler;
 
 	int32 ViewportSizeX, ViewportSizeY;

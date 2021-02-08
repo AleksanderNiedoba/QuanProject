@@ -34,7 +34,7 @@ void AOverworldPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	
-	if (!CheckKeyboardMovment()) { 
+	if (!CheckKeyboardMovement()) { 
 		CheckEdgeMovement();
 	}
 
@@ -146,7 +146,7 @@ bool AOverworldPlayerController::CheckEdgeMovement()
 	return HasInput;
 }
 
-bool AOverworldPlayerController::CheckKeyboardMovment()
+bool AOverworldPlayerController::CheckKeyboardMovement()
 {
 	bool HasInput = false;
 	
