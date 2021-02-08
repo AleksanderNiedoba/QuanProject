@@ -13,5 +13,7 @@ UCLASS()
 class QUANPROJECT_API AQuanProjectGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+	AQuanProjectGameModeBase(const FObjectInitializer&);
 	
 };
