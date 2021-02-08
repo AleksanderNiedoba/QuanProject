@@ -12,6 +12,10 @@
 	],
 	"Plugins": [
 		{
+			"Name": "OverworldBase",
+			"Enabled": true
+		},
+		{
 			"Name": "Water",
 			"Enabled": true
 		}
