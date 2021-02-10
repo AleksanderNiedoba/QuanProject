@@ -2,16 +2,17 @@
 
 
 #include "InteractionHandler.h"
+#include "OverworldStatics.h"
 
-void UInteractionHandler::FindInteractions(FHitResult HitResult)
+void UInteractionHandler::UpdateInteractions(FHitResult HitData)
 {
-	if (HitResult.Actor == nullptr)
+	if (HitData.Actor == nullptr)
 	{
 		CheckForRelease();
 		return; 
 	}
 
-	if (UInteractComponent* InteractComponent = HitResult.Actor->FindComponentByClass<UInteractComponent>())
+	if (UInteractComponent* InteractComponent = HitData.Actor->FindComponentByClass<UInteractComponent>())
 	{
 		if (InteractComponent != HoveredComponent)
 		{

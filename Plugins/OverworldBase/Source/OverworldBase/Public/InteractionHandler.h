@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "InteractComponent.h"
+#include "Components/InteractComponent.h"
 #include "InteractionHandler.generated.h"
 
 /**
@@ -16,7 +16,7 @@ class OVERWORLDBASE_API UInteractionHandler : public UObject
 	GENERATED_BODY()
 
 public: 
-	void FindInteractions(FHitResult HitResult);
+	void UpdateInteractions(FHitResult);
 protected:
 	void CheckForRelease();
 private: 
