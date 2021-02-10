@@ -3,6 +3,7 @@
 
 #include "InteractComponent.h"
 
+
 // Sets default values for this component's properties
 UInteractComponent::UInteractComponent()
 {
@@ -17,7 +18,6 @@ UInteractComponent::UInteractComponent()
 void UInteractComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
 	// ...
 	
 }
@@ -25,6 +25,7 @@ void UInteractComponent::BeginPlay()
 void UInteractComponent::OnHover()
 {
 	OnHovered.Broadcast();
+	UE_LOG(LogTemp, Warning, TEXT("Hover"))
 }
 
 void UInteractComponent::ReleaseHover()
