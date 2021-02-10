@@ -6,12 +6,13 @@
 #include "OverworldBaseSettings.h"
 #include "OverworldCameraPawn.h"
 #include "InteractionHandler.h"
+#include "IPlayerController.h"
 #include "GameFramework/PlayerController.h"
 #include "OverworldPlayerController.generated.h"
 
 
 UCLASS()
-class OVERWORLDBASE_API AOverworldPlayerController : public APlayerController
+class OVERWORLDBASE_API AOverworldPlayerController : public APlayerController, public IIPlayerController
 {
 	GENERATED_BODY()
 
@@ -42,10 +43,12 @@ protected:
 private:
 	void SetupCameraPawn();
 	void RecenterMouseCoordinates();
-	void UpdateInteractions();
+	void FindNewMouseWorldData();
 	void UpdateSpan();
 	bool CheckEdgeMovement();
 	bool CheckKeyboardMovement();
+	virtual void GetMouseDelta(float& MouseX, float& MouseY) override;
+	virtual  FVector GetMouseHitLocation() override;
 
 public:
 	float TraceDistance = 30000;
@@ -55,7 +58,9 @@ private:
 	UPROPERTY()
 	UInteractionHandler* InteractionHandler;
 
+	FHitResult HitData;
 	int32 ViewportSizeX, ViewportSizeY;
+	float LastMouseX, LastMouseY;
 	bool CameraSpanEnabled = false;
 	bool CameraMoveEnabled = true;
 	bool InteractionsEnabled = true; 

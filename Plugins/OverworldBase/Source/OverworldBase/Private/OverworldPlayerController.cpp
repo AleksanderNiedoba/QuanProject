@@ -33,6 +33,9 @@ void AOverworldPlayerController::BeginPlay()
 void AOverworldPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+
+	FindNewMouseWorldData();
+	InteractionHandler->UpdateInteractions(HitData);
 	
 	if (!CheckKeyboardMovement()) { 
 		CheckEdgeMovement();
@@ -40,10 +43,6 @@ void AOverworldPlayerController::Tick(float DeltaSeconds)
 
 	if (CameraSpanEnabled){
 		UpdateSpan();
-	}
-
-	if (InteractionsEnabled) {
-		UpdateInteractions();
 	}
 }
 
@@ -66,7 +65,18 @@ void AOverworldPlayerController::HandleCameraMove(EScreenMovement MoveDirection)
 
 void AOverworldPlayerController::EnableCameraSpan(bool NewEnable)
 {
-	CameraSpanEnabled = NewEnable;
+	if(NewEnable)
+	{
+		GetMousePosition(LastMouseX, LastMouseY);
+		bShowMouseCursor = false;
+		CameraSpanEnabled = true;
+	}
+	else
+	{
+		bShowMouseCursor = true;
+		CameraSpanEnabled = false;
+	}
+	
 	bShowMouseCursor = !NewEnable;
 }
 
@@ -97,20 +107,17 @@ void AOverworldPlayerController::SetupCameraPawn()
 
 void AOverworldPlayerController::RecenterMouseCoordinates()
 {
-	SetMouseLocation(ViewportSizeX / 2, ViewportSizeY / 2);
+	SetMouseLocation(LastMouseX, LastMouseY);
 }
 
-void AOverworldPlayerController::UpdateInteractions()
+void AOverworldPlayerController::FindNewMouseWorldData()
 {
-	FHitResult HitResult;
 	FVector TraceStartLocation, TraceDirection;
 	DeprojectMousePositionToWorld(TraceStartLocation, TraceDirection);
-	GetWorld()->LineTraceSingleByChannel(HitResult, 
+	GetWorld()->LineTraceSingleByChannel(HitData, 
 		TraceStartLocation,
 		TraceStartLocation + (TraceDirection * TraceDistance),
-		ECollisionChannel::ECC_Visibility);
-
-	InteractionHandler->FindInteractions(HitResult);
+		ECollisionChannel::ECC_WorldStatic);
 }
 
 void AOverworldPlayerController::UpdateSpan()
@@ -170,4 +177,13 @@ bool AOverworldPlayerController::CheckKeyboardMovement()
 		}
 	}
 	return HasInput;
+}
+
+void AOverworldPlayerController::GetMouseDelta(float& MouseX, float& MouseY)
+{
+}
+
+FVector AOverworldPlayerController::GetMouseHitLocation()
+{
+	return HitData.Location;
 }
