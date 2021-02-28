@@ -40,9 +40,13 @@ public:
 	//Camera Components 
 	UPROPERTY()
 	USceneComponent* CameraRootComponent;
+	UPROPERTY()
 	USceneComponent* HorizontalSpanRoot;
+	UPROPERTY()
 	USceneComponent* VerticalSpanRoot;
+	UPROPERTY()
 	UCameraComponent* CameraComponent;
+	UPROPERTY()
 	USpringArmComponent* CameraSpringArm;
 
 protected:
