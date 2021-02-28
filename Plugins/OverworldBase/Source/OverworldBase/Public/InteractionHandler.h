@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "OverworldBaseSettings.h"
 #include "UObject/NoExportTypes.h"
 #include "Components/InteractComponent.h"
 #include "InteractionHandler.generated.h"
@@ -17,8 +19,16 @@ class OVERWORLDBASE_API UInteractionHandler : public UObject
 
 public: 
 	void UpdateInteractions(FHitResult);
+	void RegisterMultiselectionActors(TArray<AActor*> OverlapingActors);
+	void HandleMultiselectionEnd();
+	void Init();
 protected:
+	void ReleaseMultiselectHovers();
 	void CheckForRelease();
-private: 
+	void UpdateInteractionContext(EInteractionContext);
+private:
+	UPROPERTY()
 	UInteractComponent* HoveredComponent;
+	UPROPERTY()
+	TArray<UInteractComponent*> MultiselectedComponents;
 };

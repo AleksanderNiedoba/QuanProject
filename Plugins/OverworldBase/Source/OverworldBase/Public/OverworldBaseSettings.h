@@ -19,6 +19,13 @@ enum class EScreenMovement : uint8
 	Bottom
 };
 
+UENUM()
+enum class EInteractionContext : uint8
+{
+	Free,
+	Multiselection
+};
+
 USTRUCT()
 struct FOverworldKeysSettings
 {

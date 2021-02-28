@@ -6,6 +6,7 @@
 #include "OverworldBaseSettings.h"
 #include "OverworldCameraPawn.h"
 #include "InteractionHandler.h"
+#include "MultiselectionDetector.h"
 #include "IPlayerController.h"
 #include "GameFramework/PlayerController.h"
 #include "OverworldPlayerController.generated.h"
@@ -20,22 +21,23 @@ public:
 	AOverworldPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
 
-	//UFUNCTION(BlueprintCallable, Category = "OverworldBase");
+	UFUNCTION(BlueprintCallable, Category = "OverworldBase")
 	void EnableCameraSpan(bool NewEnable);
-	//UFUNCTION(BlueprintCallable, Category = "OverworldBase");
+	UFUNCTION(BlueprintCallable, Category = "OverworldBase")
 	void EnableCameraMove(bool NewEnable);
-
+	UFUNCTION(BlueprintCallable, Category = "OverworldBase")
+	void StartMultiselection();
+	UFUNCTION(BlueprintCallable, Category = "OverworldBase")
+    void EndMultiselection();
+	UFUNCTION(BlueprintCallable, Category = "OverworldBase")
+	void CreateZoomRequest(EZoomState RequestState);
 
 	void HandleCameraMove(EScreenMovement MoveDirection);
 	void UpdateViewportSize();	 
-	void ZoomIn();
-	void ZoomOut();
 
 	virtual void Tick(float DeltaSeconds) override;
 	
-	//test
-	void EnableSpan();
-	void DisableSpan();
+	
 
 protected:
 	virtual void BeginPlay() override;
@@ -53,16 +55,18 @@ private:
 public:
 	float TraceDistance = 30000;
 private:
+	UPROPERTY()
 	AOverworldCameraPawn* CameraPawn;
-
 	UPROPERTY()
 	UInteractionHandler* InteractionHandler;
-
+	UPROPERTY()
+	AMultiselectionDetector* MultiselectionDetector = nullptr;
+	
 	FHitResult HitData;
 	int32 ViewportSizeX, ViewportSizeY;
 	float LastMouseX, LastMouseY;
 	bool CameraSpanEnabled = false;
 	bool CameraMoveEnabled = true;
-	bool InteractionsEnabled = true; 
+	bool SingleInteractionsEnabled = true;
 	FOverworldKeysSettings NaviButtons;
 };

@@ -2,7 +2,7 @@
 
 
 #include "InteractionHandler.h"
-#include "OverworldStatics.h"
+#include "OverworldStaticEvents.h"
 
 void UInteractionHandler::UpdateInteractions(FHitResult HitData)
 {
@@ -12,23 +12,77 @@ void UInteractionHandler::UpdateInteractions(FHitResult HitData)
 		return; 
 	}
 
-	if (UInteractComponent* InteractComponent = HitData.Actor->FindComponentByClass<UInteractComponent>())
+	if (UInteractComponent* NewHoveredComponent = HitData.Actor->FindComponentByClass<UInteractComponent>())
 	{
-		if (InteractComponent != HoveredComponent)
+		if (NewHoveredComponent != HoveredComponent)
 		{
 			CheckForRelease();
-			HoveredComponent = InteractComponent;
-			InteractComponent->OnHover();
+			HoveredComponent = NewHoveredComponent;
+			HoveredComponent->Hover();
 		}
 		return; 
 	}
 	CheckForRelease();
 }
 
+void UInteractionHandler::RegisterMultiselectionActors(TArray<AActor*> OverlapingActors)
+{
+	TArray<UInteractComponent*> NotSelectedComponents = MultiselectedComponents;
+	for (AActor* OverlapedActor : OverlapingActors)
+	{
+		UInteractComponent* InteractComponent = OverlapedActor->FindComponentByClass<UInteractComponent>();
+		if (InteractComponent == nullptr) continue; 
+
+		if(MultiselectedComponents.Find(InteractComponent) == INDEX_NONE)
+		{
+			MultiselectedComponents.Add(InteractComponent);
+			InteractComponent->MultiselectionHover();
+		}
+		else
+		{
+			NotSelectedComponents.Remove(InteractComponent);
+		}
+	}
+
+	for(UInteractComponent* OldComponent : NotSelectedComponents)
+	{
+		MultiselectedComponents.Remove(OldComponent);
+		OldComponent->MultiselectionRelease();
+	}
+	
+}
+
+void UInteractionHandler::HandleMultiselectionEnd()
+{
+	//TODO: On release multiselection handle actors selection. Temp release 
+	ReleaseMultiselectHovers();
+}
+
+void UInteractionHandler::Init()
+{
+	UOverworldStaticEvents::OnContextChanged.AddDynamic(this, &UInteractionHandler::UpdateInteractionContext);
+}
+
+void UInteractionHandler::ReleaseMultiselectHovers()
+{
+	for(UInteractComponent* InteractComponent : MultiselectedComponents)
+	{
+		InteractComponent->ReleaseHover();
+	}
+	MultiselectedComponents.Empty();
+}
+
 void UInteractionHandler::CheckForRelease()
 {
-	if (HoveredComponent){
+	if(HoveredComponent)
+	{
 		HoveredComponent->ReleaseHover();
-		HoveredComponent = nullptr;
+		HoveredComponent = nullptr; 
 	}
+}
+
+void UInteractionHandler::UpdateInteractionContext(EInteractionContext NewContext)
+{
+	if(NewContext != EInteractionContext::Free)
+		CheckForRelease();
 }
