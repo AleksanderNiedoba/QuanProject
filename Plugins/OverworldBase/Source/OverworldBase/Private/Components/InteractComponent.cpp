@@ -22,10 +22,9 @@ void UInteractComponent::BeginPlay()
 	
 }
 
-void UInteractComponent::OnHover()
+void UInteractComponent::Hover()
 {
 	OnHovered.Broadcast();
-	UE_LOG(LogTemp, Warning, TEXT("Hover"))
 }
 
 void UInteractComponent::ReleaseHover()
@@ -33,7 +32,17 @@ void UInteractComponent::ReleaseHover()
 	OnHoverReleased.Broadcast();
 }
 
-void UInteractComponent::OnClick()
+void UInteractComponent::MultiselectionHover()
+{
+	OnMultiselectionHover.Broadcast();
+}
+
+void UInteractComponent::MultiselectionRelease()
+{
+	OnMultiselectionRelease.Broadcast();
+}
+
+void UInteractComponent::Click()
 {
 	ComponentClicked.Broadcast();
 }
