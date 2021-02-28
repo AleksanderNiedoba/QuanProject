@@ -14,5 +14,6 @@ class OVERWORLDBASE_API UOverworldStatics : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
+	UFUNCTION(BlueprintPure, Category = "OverworldBaseStatics")
 	static FVector GetMouseWorldHitLocation(const UObject* WorldContextObject);
 };
