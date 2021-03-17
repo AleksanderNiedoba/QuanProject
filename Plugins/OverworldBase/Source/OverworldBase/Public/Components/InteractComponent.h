@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Quan Project 2021. All Rights Reserved.
 
 #pragma once
 
