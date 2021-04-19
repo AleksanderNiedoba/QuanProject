@@ -13,6 +13,8 @@ AOverworldPlayerController::AOverworldPlayerController(const FObjectInitializer&
 	bEnableClickEvents = true;
 	bEnableMouseOverEvents = true;
 
+	InteractionContext = EInteractionContext::Free; 
+
 }
 
 
@@ -20,7 +22,6 @@ void AOverworldPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	SetupCameraPawn();
-	UpdateViewportSize();
 	InteractionHandler = NewObject<UInteractionHandler>();
 }
 
@@ -84,16 +85,13 @@ void AOverworldPlayerController::StartMultiselection()
 
 void AOverworldPlayerController::EndMultiselection()
 {
+	if(!IsValid(MultiselectionDetector)) return; 
+		
 	MultiselectionDetector->Destroy();
 	MultiselectionDetector = nullptr;
 	InteractionHandler->HandleMultiselectionEnd();
 	UOverworldStaticEvents::OnContextChanged.Broadcast(EInteractionContext::Free);
 	SingleInteractionsEnabled = true; 
-}
-
-void AOverworldPlayerController::UpdateViewportSize()
-{
-	GetViewportSize(ViewportSizeX, ViewportSizeY);
 }
 
 void AOverworldPlayerController::CreateZoomRequest(EZoomState RequestState)
@@ -135,7 +133,8 @@ bool AOverworldPlayerController::CheckEdgeMovement()
 	bool HasInput= false;
 	float CurrentMouseLocationX, CurrentMouseLocationY;
 	GetMousePosition(CurrentMouseLocationX, CurrentMouseLocationY);
-
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	
 	if (CurrentMouseLocationX / ViewportSizeX >= 0.95){
 		HandleCameraMove(EScreenMovement::Right);
 		HasInput = true;

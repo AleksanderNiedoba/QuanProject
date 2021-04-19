@@ -21,7 +21,6 @@ void UGameClockComponent::BeginPlay()
 void UGameClockComponent::SetupClockwork(float DeltaSeconds)
 {
 	Clockwork += DeltaSeconds/TimeUnit;
-	UE_LOG(LogTemp, Warning, TEXT("Clockwork: %f"), Clockwork)
 	DayTick += UKismetMathLibrary::FMod(Clockwork, 24.f, Clockwork);
 }
 

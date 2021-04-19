@@ -23,7 +23,8 @@ UENUM()
 enum class EInteractionContext : uint8
 {
 	Free,
-	Multiselection
+	Multiselection,
+	Construction
 };
 
 USTRUCT()
