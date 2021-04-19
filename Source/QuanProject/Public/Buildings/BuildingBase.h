@@ -15,12 +15,14 @@ class QUANPROJECT_API ABuildingBase : public AActor
 public:	
 	ABuildingBase();
 
+	UPROPERTY()
+	UInteractComponent* InteractComponent = nullptr;
 protected:
 	virtual void BeginPlay() override;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
-
+	
 	
 	virtual void BuildingConstructed();
 	virtual void BuildingDestroyed();

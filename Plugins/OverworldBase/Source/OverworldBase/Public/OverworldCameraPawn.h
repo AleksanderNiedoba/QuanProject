@@ -15,7 +15,6 @@ class OVERWORLDBASE_API AOverworldCameraPawn : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
 	AOverworldCameraPawn();
 
 	//Defaults
@@ -44,24 +43,19 @@ public:
 	USceneComponent* HorizontalSpanRoot;
 	UPROPERTY()
 	USceneComponent* VerticalSpanRoot;
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	UCameraComponent* CameraComponent;
 	UPROPERTY()
 	USpringArmComponent* CameraSpringArm;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void SetupCameraDefaults();
 	void UpdateZoomDistance();
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-
 	void MoveCamera(const EScreenMovement Direction);
 	void AdjustCameraSpan(const float MouseX, const float MouseY) const;
 	void RequestZoomChange(const EZoomState ZoomState);

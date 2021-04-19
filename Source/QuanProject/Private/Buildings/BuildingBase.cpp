@@ -3,26 +3,24 @@
 
 #include "Buildings/BuildingBase.h"
 
-// Sets default values
+
+
 ABuildingBase::ABuildingBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	InteractComponent = CreateDefaultSubobject<UInteractComponent>("InteractComponent");
 }
 
-// Called when the game starts or when spawned
+
 void ABuildingBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called every frame
+
 void ABuildingBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ABuildingBase::BuildingConstructed()

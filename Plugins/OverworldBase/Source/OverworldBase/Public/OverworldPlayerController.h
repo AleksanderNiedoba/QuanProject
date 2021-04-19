@@ -32,11 +32,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "OverworldBase")
 	void CreateZoomRequest(EZoomState RequestState);
 
-	void HandleCameraMove(EScreenMovement MoveDirection);
-	void UpdateViewportSize();	 
+	void HandleCameraMove(EScreenMovement MoveDirection);	 
 
 	virtual void Tick(float DeltaSeconds) override;
-	
+	virtual void GetMouseDelta(float& MouseX, float& MouseY) override;
+	virtual  FVector GetMouseHitLocation() override;
 	
 
 protected:
@@ -49,11 +49,11 @@ private:
 	void UpdateSpan();
 	bool CheckEdgeMovement();
 	bool CheckKeyboardMovement();
-	virtual void GetMouseDelta(float& MouseX, float& MouseY) override;
-	virtual  FVector GetMouseHitLocation() override;
+	
 
 public:
 	float TraceDistance = 30000;
+	EInteractionContext InteractionContext; 
 private:
 	UPROPERTY()
 	AOverworldCameraPawn* CameraPawn;
